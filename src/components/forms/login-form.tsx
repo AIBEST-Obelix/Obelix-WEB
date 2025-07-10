@@ -46,18 +46,18 @@ export default function LoginForm() {
             <CardHeader>
                 <CardTitle className="text-2xl">Вход</CardTitle>
                 <CardDescription>
-                    Въведете вашето потребителско име и парола, за да продължите
+                    Въведете вашия имейл и парола, за да продължите
                 </CardDescription>
             </CardHeader>
             <form onSubmit={handleSubmit}>
                 <CardContent className="grid gap-4">
                     <div className="grid gap-2">
-                        <Label htmlFor="username">Потребителско име</Label>
-                        <Input id="username" type="username" placeholder="Потребителско име" required />
+                        <Label htmlFor="email">Имейл</Label>
+                        <Input id="email" type="email" placeholder="johndoe@example.com" required />
                     </div>
                     <div className="grid gap-2">
                         <Label htmlFor="password">Парола</Label>
-                        <Input id="password" type="password" required />
+                        <Input id="password" type="password" placeholder='••••••••' required />
                     </div>
                 </CardContent>
                 <CardFooter>

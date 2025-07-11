@@ -1,9 +1,12 @@
 import {UserIm} from "@/lib/api/models/user/user-im";
+import {UserRegister} from "@/lib/api/models/user/register-im";
 import {UserUm} from "@/lib/api/models/user/user-um";
 import { CompanyIM } from "../api/models/company/company-im";
 import { InvoiceIM } from "../api/models/invoice/invoice-im";
 
 export class Validator {
+
+    
     public static ValidateUserIm(userIm: UserIm) {
         if (!userIm.username) {
             throw new Error("Потребителксото име е задължително.");
@@ -24,6 +27,37 @@ export class Validator {
             throw new Error("Паролата не е в правилния формат.");
         }
     }
+
+    public static ValidateUserRegister(user: UserRegister) {
+        if (!user.username) {
+        throw new Error("Потребителското име е задължително.");
+        }
+        const usernameRegex = /^(?=.{5,20}$)(?!.*\.\.)([a-zA-Z0-9]+\.)*[a-zA-Z0-9]+$/;
+        if (!usernameRegex.test(user.username)) {
+        throw new Error("Потребителското име не е в правилния формат.");
+        }
+
+        if (!user.password) {
+        throw new Error("Паролата е задължителна.");
+        }
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$^+=!*()@%&]).{8,}$/;
+        if (!passwordRegex.test(user.password)) {
+        throw new Error("Паролата не е в правилния формат.");
+        }
+
+        if (user.password !== user.confirmPassword) {
+        throw new Error("Паролите не съвпадат.");
+        }
+
+        if (!user.email) {
+        throw new Error("Имейлът е задължителен.");
+        }
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(user.email)) {
+        throw new Error("Имейлът не е валиден.");
+        }
+    }
+    
     
     
     public static ValidateUserUm(userUm: UserUm) {

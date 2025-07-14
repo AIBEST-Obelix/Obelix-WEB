@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import { Validator } from "@/lib/validator/validator";
 import authService from "@/lib/services/auth-service";
 import ErrorHandler from "@/lib/error-handlers/ErrorHandler";
@@ -61,8 +61,8 @@ export default function LoginForm() {
                         <Input id="password" type="password" placeholder='••••••••' required />
                     </div>
                 </CardContent>
-                <CardFooter className="flex flex-col gap-2">
-                    <Button type="submit" className="w-full" disabled={isLoading}>
+                <CardFooter className="flex flex-row gap-2 justify-between">
+                    <Button type="submit" className="w-1/3" disabled={isLoading}>
                         {isLoading &&
                             <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
                         }

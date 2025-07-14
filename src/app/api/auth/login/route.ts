@@ -21,7 +21,8 @@ export async function POST(req: NextRequest){
 
     try {
         Validator.ValidateUserIm(reqData);
-    } catch (error: unknown) {
+        // @ts-ignore
+    } catch (error: never) {
         return NextResponse.json({
             error: error.message
         }, {

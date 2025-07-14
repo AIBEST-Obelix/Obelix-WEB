@@ -13,11 +13,6 @@ export class UserService {
         return res.data;
     }
     
-    async GetAllAccountantsAsync() : Promise<Array<UserVm>> {
-        const res = await clientHttpClient.get<Array<UserVm>>("/api/user/accountant");
-        return res.data;
-    }
-    
     async GetAllUsersAsync() : Promise<Array<UserVm>> {
         const res = await clientHttpClient.get<Array<UserVm>>("/api/user/user");
         return res.data;

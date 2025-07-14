@@ -1,18 +1,18 @@
-export class UserRegister {
+export class RegisterIm {
   /**
-   * Gets or sets the username of the user.
+   * Gets or sets the first name of the user.
    */
-  username: string = '';
+  firstName: string = '';
+
+  /**
+   * Gets or sets the last name of the user.
+   */
+  lastName: string = '';
 
   /**
    * Gets or sets the password of the user.
    */
   password: string = '';
-
-  /**
-   * Gets or sets the password confirmation of the user.
-   */
-  confirmPassword: string = '';
 
   /**
    * Gets or sets the email of the user.

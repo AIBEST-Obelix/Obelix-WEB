@@ -3,7 +3,6 @@ import {getMiddleware, TokenPair} from "with-refresh-token";
 import {jwtDecode} from "jwt-decode";
 import apiHttpClient from "@/lib/api/http";
 import {MiddlewareFactory} from "@/middleware/middleware-factory";
-import { cookies } from "next/headers";
 
 const DEFAULT_OFFSET_SECONDS = 15; // refresh the token 15 seconds before it expires
 
@@ -43,7 +42,7 @@ export const withRefreshToken = getMiddleware({
             accessToken: accessToken,
         };
         
-        let renewPath= "api/identity/auth/renew"
+        const renewPath= "api/identity/auth/renew"
         
         const response = await  apiHttpClient.post(renewPath, tokens);
         
@@ -71,18 +70,9 @@ export const withRefreshToken = getMiddleware({
             path: "/",
             httpOnly: true,
         });
-        
-        const companyId = (await cookies()).get("providerId")?.value;
-        if (companyId) {
-            res.cookies.set({
-                name: "companyId",
-                value: companyId,
-                maxAge: 60 * 60 * 24 * 7, // 7 days
-                path: "/"
-            });
-        }
     },
-    onError: (_req, _res, error) => {
+    // @ts-ignore
+    onError: (_req) => {
         // optional function that is called when an error occurs during the refresh token process
         // you can clear the cookies and redirect to the login page if is unauthorized
         // if (error instanceof Response && error.status === 401) {
@@ -124,12 +114,12 @@ export const withRefreshToken = getMiddleware({
     },
 });
 
-export const refreshTokenMiddleware: MiddlewareFactory = (next) => {
+export const refreshTokenMiddleware: MiddlewareFactory = () => {
     return async (request: NextRequest, _next: NextFetchEvent) => {
         const pathname = request.nextUrl.pathname;
         
-        if (["/admin", "/admin/user", "/admin/company", "/"]?.some((path) => pathname === path)
-            || ["/admin/company/"]?.some((path) => pathname.startsWith(path))) {
+        if (["/admin", "/admin/user", "/"]?.some((path) => pathname === path)) {
+            // @ts-ignore
             return withRefreshToken()(request, _next);
         }
     }

@@ -12,6 +12,7 @@ import {Validator} from "@/lib/validator/validator";
 import authService from "@/lib/services/auth-service";
 import ErrorHandler from "@/lib/error-handlers/ErrorHandler";
 import {AxiosError} from "axios";
+import Link from "next/link";
 
 export default function RegisterForm() {
     const [isLoading, setIsLoading] = useState(false);
@@ -22,8 +23,9 @@ export default function RegisterForm() {
         setIsLoading(true);
 
         const form = event.currentTarget;
+        const firstName = form['firstName'].value;
+        const lastName = form['lastName'].value;
         const email = form['email'].value;
-        const username = form['username'].value;
         const password = form['password'].value;
         const confirmPassword = form['confirmPassword'].value;
 
@@ -33,9 +35,9 @@ export default function RegisterForm() {
                 return;
             }
 
-            Validator.ValidateUserRegister({ email, username, password });
+            Validator.ValidateUserRegister({firstName, lastName, email, password });
 
-            await authService.RegisterAsync({ email, username, password });
+            await authService.CreateUserAsync({ email, password });
 
             toast.success("Регистрацията беше успешна.");
             router.push("/login");
@@ -56,27 +58,36 @@ export default function RegisterForm() {
             <form onSubmit={handleSubmit}>
                 <CardContent className="grid gap-4">
                     <div className="grid gap-2">
-                        <Label htmlFor="email">Имейл</Label>
-                        <Input id="email" type="email" required />
+                        <Label htmlFor="firstName">Име</Label>
+                        <Input id="firstName" type="firstName" placeholder="John" required />
                     </div>
                     <div className="grid gap-2">
-                        <Label htmlFor="username">Потребителско име</Label>
-                        <Input id="username" type="text" required />
+                        <Label htmlFor="lastName">Фамилия</Label>
+                        <Input id="lastName" type="lastName" placeholder="Doe" required />
+                    </div>
+                    <div className="grid gap-2">
+                        <Label htmlFor="email">Имейл</Label>
+                        <Input id="email" type="email" placeholder={"johndoe@example.com"} required />
                     </div>
                     <div className="grid gap-2">
                         <Label htmlFor="password">Парола</Label>
-                        <Input id="password" type="password" required />
+                        <Input id="password" type="password" placeholder='••••••••' required />
                     </div>
                     <div className="grid gap-2">
                         <Label htmlFor="confirmPassword">Потвърди парола</Label>
-                        <Input id="confirmPassword" type="password" required />
+                        <Input id="confirmPassword" type="password" placeholder='••••••••' required />
                     </div>
                 </CardContent>
-                <CardFooter>
-                    <Button type="submit" className="w-full" disabled={isLoading}>
+                <CardFooter className="flex flex-row gap-2 justify-between">
+                    <Button type="submit" className="w-1/3" disabled={isLoading}>
                         {isLoading && <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />}
                         {isLoading ? "Моля изчакайте" : "Регистрация"}
                     </Button>
+                    <Link href="/auth/login" passHref>
+                        <Button variant="outline" className="w-full" type="button">
+                            Имате акаунт? Впишете се
+                        </Button>
+                    </Link>
                 </CardFooter>
             </form>
         </Card>

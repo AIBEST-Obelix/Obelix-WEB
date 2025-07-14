@@ -6,16 +6,11 @@ import {
 import {MiddlewareFactory} from "@/middleware/middleware-factory";
 import {jwtDecode} from "jwt-decode";
 
-function getSearchParam(param: string, url: any) {
-    return url.searchParams.get(param);
-}
-
 export const adminAuthGuardMiddleware: MiddlewareFactory = (next) => {
     return async(request: NextRequest, _next: NextFetchEvent) => {
         const pathname = request.nextUrl.pathname;
 
-        if (["/admin", "/admin/admin", "/admin/company", "/admin/user", "/admin/product", "/admin/notification"]?.some((path) => pathname === path)
-            || ["/admin/company/"]?.some((path) => pathname.startsWith(path))) {
+        if (["/admin", "/admin/admin", "/admin/user", "/admin/product", "/admin/notification"]?.some((path) => pathname === path)) {
             const accessToken = request.cookies.get("accessToken");
             if (!accessToken) {
                 const url = new URL(`/auth/login`, request.nextUrl.origin);

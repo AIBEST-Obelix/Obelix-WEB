@@ -34,14 +34,6 @@ export class AuthService {
         }
     }
     
-    async CreateAccountantAsync(userIm: UserIm) {
-        const res = await clientHttpClient.post("/api/auth/register/accountant", userIm);
-
-        if (res.status !== 200) {
-            throw new Error(res.data.error);
-        }
-    }
-    
     async CreateUserAsync(userIm: UserIm) {
         const res = await clientHttpClient.post("/api/auth/register/user", userIm);
 

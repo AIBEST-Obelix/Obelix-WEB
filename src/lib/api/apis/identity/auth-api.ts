@@ -13,10 +13,6 @@ export class AuthApi extends WebApi {
         return await apiHttpClient.post<Response>("/api/identity/auth/register/admin", userIm, await this.generateHeader())
     }
     
-    public async CreateAccountantAsync(userIm: UserIm): Promise<AxiosResponse<Response>> {
-        return await apiHttpClient.post<Response>("/api/identity/auth/register/accountant", userIm, await this.generateHeader())
-    }
-    
     public async CreateUserAsync(userIm: UserIm): Promise<AxiosResponse<Response>> {
         return await apiHttpClient.post<Response>("/api/identity/auth/register/user", userIm, await this.generateHeader())
     }

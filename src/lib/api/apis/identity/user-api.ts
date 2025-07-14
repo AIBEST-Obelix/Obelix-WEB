@@ -22,10 +22,6 @@ class UserApi extends WebApi {
         return await apiHttpClient.get<Array<UserVm>>("/api/identity/user/admin", await this.generateHeader());
     }
     
-    public async GetAllAccountantsAsync(): Promise<AxiosResponse<Array<UserVm>>> {
-        return await apiHttpClient.get<Array<UserVm>>("/api/identity/user/accountant", await this.generateHeader());
-    }
-    
     public async GetAllUsersAsync(): Promise<AxiosResponse<Array<UserVm>>> {
         return await apiHttpClient.get<Array<UserVm>>("/api/identity/user/user", await this.generateHeader());
     }

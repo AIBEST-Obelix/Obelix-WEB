@@ -1,13 +1,13 @@
 import {redirect} from "next/navigation";
 import {cookies} from "next/headers";
 import {jwtDecode} from "jwt-decode";
-import UserAccountantLayout from "@/components/layouts/user-accountant-layout";
+import UserLayout from "@/components/layouts/user-layout";
 
 function getLayoutForRole(role: string) {
   if (role === "Admin") {
     redirect("/admin");
   } else {
-    return <UserAccountantLayout role={role}/>;
+    return <UserLayout/>;
   }
 }
 

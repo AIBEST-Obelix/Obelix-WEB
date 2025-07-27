@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/dialog";
 import { EditUserForm } from "@/components/forms/edit-user-form";
 import { DeleteUserForm } from "@/components/forms/delete-user-form";
+import { CreateUserForm } from "@/components/forms/create-user-form";
 import { UserVm } from "@/lib/api/models/user/user-vm";
 import userService from "@/lib/services/user-service";
 import { USER_TABLE_REFRESH_EVENT } from "@/lib/shared/constants";
@@ -32,6 +33,7 @@ export function UsersTable() {
   const [loading, setLoading] = useState(true);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [createDialogOpen, setCreateDialogOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<UserVm | null>(null);
 
   const fetchUsers = async () => {
@@ -126,6 +128,13 @@ export function UsersTable() {
 
   return (
     <>
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-xl font-semibold">Users</h2>
+        <Button onClick={() => setCreateDialogOpen(true)}>
+          Add User
+        </Button>
+      </div>
+
       <DataTable
         columns={columns}
         originalData={users}
@@ -172,6 +181,18 @@ export function UsersTable() {
           </Dialog>
         </>
       )}
+
+      <Dialog open={createDialogOpen} onOpenChange={setCreateDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Add New User</DialogTitle>
+            <DialogDescription>
+              Create a new user account
+            </DialogDescription>
+          </DialogHeader>
+          <CreateUserForm setOpen={setCreateDialogOpen} />
+        </DialogContent>
+      </Dialog>
     </>
   );
 }

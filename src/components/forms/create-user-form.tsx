@@ -28,15 +28,17 @@ export function CreateUserForm(
         setIsLoading(true);
 
         const form = event.currentTarget;
-        const username = form['username'].value;
+        const email = form['email'].value;
         const password = form['password']?.value;
+        const firstName = form['firstName'].value;
+        const lastName = form['lastName'].value;
 
         try {
-            Validator.ValidateUserIm({username, password});
+            Validator.ValidateUserIm({email, password, firstName, lastName});
 
-            await authService.CreateUserAsync({username, password});
+            await authService.CreateUserAsync({email, password, firstName, lastName});
 
-            toast.success(`Successfully created user ${username} in the system.`);
+            toast.success(`Successfully created user ${email} in the system.`);
 
             const event = new CustomEvent(USER_TABLE_REFRESH_EVENT)
 
@@ -54,17 +56,23 @@ export function CreateUserForm(
     return (
         <form onSubmit={handleSubmit} className={cn("grid items-start gap-4 pr-4 pl-4 md:pr-0 md:pl-0", className)}>
             <div className="grid gap-2">
-                <Label htmlFor="username">Username</Label>
-                <Input id="username" placeholder="username" required/>
+                <Label htmlFor="firstName">First Name</Label>
+                <Input id="firstName" placeholder="Enter first name" required/>
+                
+                <Label htmlFor="lastName">Last Name</Label>
+                <Input id="lastName" placeholder="Enter last name" required/>
+                
+                <Label htmlFor="email">Email</Label>
+                <Input id="email" type="email" placeholder="Enter email address" required/>
+                
                 <Label htmlFor="password">Password</Label>
-                <Input id="password" type="password" required/>
-
+                <Input id="password" type="password" placeholder="Enter password" required/>
             </div>
             <Button type={"submit"} className="w-full" disabled={isLoading}>
                 {isLoading &&
                     <ReloadIcon className="mr-2 h-4 w-4 animate-spin"/>
                 }
-                {isLoading ? "Please wait" : "Create"}
+                {isLoading ? "Please wait" : "Create User"}
             </Button>
         </form>
     );

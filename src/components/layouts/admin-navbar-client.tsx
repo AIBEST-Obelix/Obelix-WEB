@@ -47,10 +47,10 @@ export default function AdminNavbarClient({
                     Статистика
                 </Link>
                 <Link
-                    href="/admin/user"
+                    href="/admin/admins"
                     className={`transition-colors hover:text-foreground ${isActive("/admin/user") ? "text-foreground font-semibold" : "text-muted-foreground"}`}
                 >
-                    Потребители
+                    Админи
                 </Link>
             </nav>
             <Sheet>

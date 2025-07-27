@@ -23,13 +23,13 @@ export default function LoginForm() {
         setIsLoading(true);
 
         const form = event.currentTarget;
-        const username = form['email'].value;  // you use email, but named username in your original try
+        const email = form['email'].value;  // you use email, but named username in your original try
         const password = form['password'].value;
 
         try {
-            Validator.ValidateUserIm({ username, password });
+            Validator.ValidateUserIm({ email, password });
 
-            await authService.LoginAsync({ username, password });
+            await authService.LoginAsync({ email, password });
 
             toast.success("Успешно влязохте в системата.");
 

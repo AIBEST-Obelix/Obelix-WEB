@@ -18,11 +18,11 @@ export function EditUserForm(
     {
         setOpen,
         className,
-        username,
+        user,
         userId
     } : ComponentProps<"form"> & {
         setOpen?: Dispatch<SetStateAction<boolean>>,
-        username: string,
+        user: {email: string, firstName: string, lastName: string},
         userId: string
     })
 {
@@ -34,17 +34,26 @@ export function EditUserForm(
         setIsLoading(true);
 
         const form = event.currentTarget;
-        const username = form['username'].value;
-        const password = form['password']?.value;
+        const email = form['email'].value;
+        const firstName = form['firstName'].value;
+        const lastName = form['lastName'].value;
+        const password = checked ? form['password']?.value : undefined;
 
         try {
-            Validator.ValidateUserUm({username, password});
+            const updateData: {email: string, password?: string, firstName: string, lastName: string} = {
+                email,
+                firstName,
+                lastName
+            };
 
-            await userService.UpdateUserAsync(userId,{username, password});
-            toast.success(`Успешно редактирахте потребител ${username} в системата.`);
+            if (password) {
+                updateData.password = password;
+            }
+
+            await userService.UpdateUserAsync(userId, updateData);
+            toast.success(`Successfully updated user ${email} in the system.`);
 
             const event = new CustomEvent(USER_TABLE_REFRESH_EVENT)
-
             window.dispatchEvent(event);
 
             if (setOpen) {
@@ -62,28 +71,34 @@ export function EditUserForm(
     return (
         <form onSubmit={handleSubmit} className={cn("grid items-start gap-4 pr-4 pl-4 md:pr-0 md:pl-0", className)}>
             <div className="grid gap-2">
-                <Label htmlFor="username">Потребителско име</Label>
-                <Input id="username" defaultValue={username}/>
+                <Label htmlFor="firstName">First Name</Label>
+                <Input id="firstName" defaultValue={user.firstName} />
+
+                <Label htmlFor="lastName">Last Name</Label>
+                <Input id="lastName" defaultValue={user.lastName} />
+
+                <Label htmlFor="email">Email</Label>
+                <Input id="email" defaultValue={user.email} type="email" />
+
                 <div className="flex items-center space-x-2">
                     <Checkbox checked={checked} id="passwordCheck" onCheckedChange={() => setChecked(!checked)} />
                     <Label htmlFor="passwordCheck" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                        Промяна на паролата
+                        Change password
                     </Label>
                 </div>
                 {checked && (
                     <>
-                        <Label htmlFor="password">Парола</Label>
+                        <Label htmlFor="password">Password</Label>
                         <Input id="password" type="password" />
                     </>
                 )}
-
-
             </div>
+
             <Button type={"submit"} className="w-full" disabled={isLoading}>
                 {isLoading &&
                     <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
                 }
-                {isLoading ? "Моля изчакайте" : "Запазване"}
+                {isLoading ? "Please wait" : "Save"}
             </Button>
         </form>
     )

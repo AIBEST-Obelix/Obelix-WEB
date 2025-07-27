@@ -26,16 +26,16 @@ export class AuthService {
         }
     }
     
-    async CreateAdminAsync(userIm: UserIm) {
-        const res = await clientHttpClient.post("/api/auth/register/admin", userIm);
+    async CreateAdminAsync(adminData: UserIm) {
+        const res = await clientHttpClient.post("/api/auth/register/admin", adminData);
 
         if (res.status !== 200) {
             throw new Error(res.data.error);
         }
     }
     
-    async CreateUserAsync(userIm: UserIm) {
-        const res = await clientHttpClient.post("/api/auth/register/user", userIm);
+    async CreateUserAsync(userData: UserIm) {
+        const res = await clientHttpClient.post("/api/auth/register/user", userData);
 
         if (res.status !== 200) {
             throw new Error(res.data.error);

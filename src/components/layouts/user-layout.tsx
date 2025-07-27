@@ -5,7 +5,7 @@ export default async function UserLayout() {
         <>
             <Navbar />
             <p>
-                Ти си потребител!
+                You are a user!
                 <br/>
             </p>
         </>

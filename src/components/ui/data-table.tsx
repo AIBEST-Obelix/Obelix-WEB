@@ -196,7 +196,7 @@ export function DataTable<TData, TValue>({
                         ) : (
                             <TableRow>
                                 <TableCell colSpan={columns.length} className="h-24 text-center">
-                                    {isLoaded ? "Няма резултати." : "Зареждане..."}
+                                    {isLoaded ? "No results." : "Loading..."}
                                 </TableCell>
                             </TableRow>
                         )}
@@ -205,11 +205,10 @@ export function DataTable<TData, TValue>({
             </div>
             <div className="flex justify-between">
                 <div className="flex items-center justify-between px-2">
-                    <p className="text-sm font-medium">Общ брой: {data.length}</p>
+                    <p className="text-sm font-medium">Total count: {data.length}</p>
                 </div>
                 <DataTablePagination table={table} />
             </div>
         </div>
     )
 }
-

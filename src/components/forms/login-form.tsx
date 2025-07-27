@@ -31,7 +31,7 @@ export default function LoginForm() {
 
             await authService.LoginAsync({ email, password });
 
-            toast.success("Успешно влязохте в системата.");
+            toast.success("Successfully logged into the system.");
 
             router.push("/");
         } catch (error) {
@@ -45,19 +45,19 @@ export default function LoginForm() {
     return (
         <Card className="w-full max-w-lg">
             <CardHeader>
-                <CardTitle className="text-2xl">Вход</CardTitle>
+                <CardTitle className="text-2xl">Login</CardTitle>
                 <CardDescription>
-                    Въведете вашия имейл и парола, за да продължите
+                    Enter your email and password to continue
                 </CardDescription>
             </CardHeader>
             <form onSubmit={handleSubmit}>
                 <CardContent className="grid gap-4">
                     <div className="grid gap-2">
-                        <Label htmlFor="email">Имейл</Label>
+                        <Label htmlFor="email">Email</Label>
                         <Input id="email" type="email" placeholder="johndoe@example.com" required />
                     </div>
                     <div className="grid gap-2">
-                        <Label htmlFor="password">Парола</Label>
+                        <Label htmlFor="password">Password</Label>
                         <Input id="password" type="password" placeholder='••••••••' required />
                     </div>
                 </CardContent>
@@ -66,11 +66,11 @@ export default function LoginForm() {
                         {isLoading &&
                             <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
                         }
-                        {isLoading ? "Моля изчакайте" : "Вход"}
+                        {isLoading ? "Please wait" : "Login"}
                     </Button>
                     <Link href="/auth/register" passHref>
                         <Button variant="outline" className="w-full" type="button">
-                            Нямате акаунт? Регистрирайте се
+                            Don&apos;t have an account? Register
                         </Button>
                     </Link>
                 </CardFooter>
@@ -78,4 +78,3 @@ export default function LoginForm() {
         </Card>
     );
 }
-

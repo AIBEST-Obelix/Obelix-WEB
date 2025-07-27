@@ -36,7 +36,7 @@ export function CreateUserForm(
 
             await authService.CreateUserAsync({username, password});
 
-            toast.success(`Успешно създадохте потребител ${username} в системата.`);
+            toast.success(`Successfully created user ${username} in the system.`);
 
             const event = new CustomEvent(USER_TABLE_REFRESH_EVENT)
 
@@ -54,9 +54,9 @@ export function CreateUserForm(
     return (
         <form onSubmit={handleSubmit} className={cn("grid items-start gap-4 pr-4 pl-4 md:pr-0 md:pl-0", className)}>
             <div className="grid gap-2">
-                <Label htmlFor="username">Потребителско име</Label>
+                <Label htmlFor="username">Username</Label>
                 <Input id="username" placeholder="username" required/>
-                <Label htmlFor="password">Парола</Label>
+                <Label htmlFor="password">Password</Label>
                 <Input id="password" type="password" required/>
 
             </div>
@@ -64,7 +64,7 @@ export function CreateUserForm(
                 {isLoading &&
                     <ReloadIcon className="mr-2 h-4 w-4 animate-spin"/>
                 }
-                {isLoading ? "Моля изчакайте" : "Създаване"}
+                {isLoading ? "Please wait" : "Create"}
             </Button>
         </form>
     );

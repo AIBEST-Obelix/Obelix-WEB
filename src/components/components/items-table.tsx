@@ -18,29 +18,30 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { EditUserForm } from "@/components/forms/edit-user-form";
-import { DeleteAdminForm } from "@/components/forms/delete-admin-form";
-import { CreateAdminForm } from "@/components/forms/create-admin-form";
-import { UserVm } from "@/lib/api/models/user/user-vm";
-import userService from "@/lib/services/user-service";
-import { ADMIN_TABLE_REFRESH_EVENT } from "@/lib/shared/constants";
+import { EditItemForm } from "@/components/forms/edit-item-form";
+import { DeleteItemForm } from "@/components/forms/delete-item-form";
+import { CreateItemForm } from "@/components/forms/create-item-form";
+import { ItemVm } from "@/lib/api/models/item/item-vm";
+import itemService from "@/lib/services/item-service";
+import { ITEM_TABLE_REFRESH_EVENT } from "@/lib/shared/constants";
 import { toast } from "sonner";
 import ErrorHandler from "@/lib/error-handlers/ErrorHandler";
 import { AxiosError } from "axios";
+import { ItemImage } from "@/components/components/item-image";
 
-export function AdminsTable() {
-  const [admins, setAdmins] = useState<UserVm[]>([]);
+export function ItemsTable() {
+  const [items, setItems] = useState<ItemVm[]>([]);
   const [loading, setLoading] = useState(true);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
-  const [selectedAdmin, setSelectedAdmin] = useState<UserVm | null>(null);
+  const [selectedItem, setSelectedItem] = useState<ItemVm | null>(null);
 
-  const fetchAdmins = async () => {
+  const fetchItems = async () => {
     try {
       setLoading(true);
-      const admins = await userService.GetAllAdminsAsync();
-      setAdmins(admins);
+      const items = await itemService.GetAllItemsAsync();
+      setItems(items);
     } catch (error) {
       const msg = ErrorHandler.HandleUserError(error as AxiosError);
       toast.error(msg);
@@ -50,25 +51,25 @@ export function AdminsTable() {
   };
 
   useEffect(() => {
-    fetchAdmins();
+    fetchItems();
 
     const handleRefresh = () => {
-      fetchAdmins();
+      fetchItems();
     };
 
-    window.addEventListener(ADMIN_TABLE_REFRESH_EVENT, handleRefresh);
+    window.addEventListener(ITEM_TABLE_REFRESH_EVENT, handleRefresh);
     return () => {
-      window.removeEventListener(ADMIN_TABLE_REFRESH_EVENT, handleRefresh);
+      window.removeEventListener(ITEM_TABLE_REFRESH_EVENT, handleRefresh);
     };
   }, []);
 
-  const handleEdit = (admin: UserVm) => {
-    setSelectedAdmin(admin);
+  const handleEdit = (item: ItemVm) => {
+    setSelectedItem(item);
     setEditDialogOpen(true);
   };
 
-  const handleDelete = (admin: UserVm) => {
-    setSelectedAdmin(admin);
+  const handleDelete = (item: ItemVm) => {
+    setSelectedItem(item);
     setDeleteDialogOpen(true);
   };
 
@@ -76,24 +77,40 @@ export function AdminsTable() {
     setCreateDialogOpen(true);
   };
 
-  const columns: ColumnDef<UserVm>[] = [
+  const columns: ColumnDef<ItemVm>[] = [
     {
-      accessorKey: "firstName",
-      header: "First Name",
+      id: "image",
+      header: "Image",
+      cell: ({ row }) => {
+        const item = row.original;
+        return <ItemImage itemId={item.id} />;
+      },
     },
     {
-      accessorKey: "lastName",
-      header: "Last Name",
+      accessorKey: "name",
+      header: "Name",
     },
     {
-      accessorKey: "email",
-      header: "Email",
+      accessorKey: "type",
+      header: "Type",
+    },
+    {
+      accessorKey: "serialNumber",
+      header: "Serial Number",
+    },
+    {
+      accessorKey: "createdAt",
+      header: "Created",
+      cell: ({ row }) => {
+        const date = row.original.createdAt;
+        return date ? new Date(date).toLocaleDateString() : "N/A";
+      },
     },
     {
       id: "actions",
       header: "Actions",
       cell: ({ row }) => {
-        const admin = row.original;
+        const item = row.original;
 
         return (
           <DropdownMenu>
@@ -104,12 +121,12 @@ export function AdminsTable() {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => handleEdit(admin)}>
+              <DropdownMenuItem onClick={() => handleEdit(item)}>
                 <Pencil className="mr-2 h-4 w-4" />
                 Edit
               </DropdownMenuItem>
               <DropdownMenuItem
-                onClick={() => handleDelete(admin)}
+                onClick={() => handleDelete(item)}
                 className="text-red-600"
               >
                 <Trash2 className="mr-2 h-4 w-4" />
@@ -125,7 +142,7 @@ export function AdminsTable() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="text-lg">Loading administrators...</div>
+        <div className="text-lg">Loading items...</div>
       </div>
     );
   }
@@ -133,38 +150,38 @@ export function AdminsTable() {
   return (
     <>
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-lg font-semibold">Administrators</h2>
+        <h2 className="text-lg font-semibold">Items</h2>
         <Button onClick={handleCreate}>
           <Plus className="mr-2 h-4 w-4" />
-          Add Administrator
+          Add Item
         </Button>
       </div>
 
       <DataTable
         columns={columns}
-        originalData={admins}
-        searchText="Search administrators..."
-        tableRefreshEventKey={ADMIN_TABLE_REFRESH_EVENT}
+        originalData={items}
+        searchText="Search items..."
+        tableRefreshEventKey={ITEM_TABLE_REFRESH_EVENT}
       />
 
-      {selectedAdmin && (
+      {selectedItem && (
         <>
           <Dialog open={editDialogOpen} onOpenChange={setEditDialogOpen}>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Edit Administrator</DialogTitle>
+                <DialogTitle>Edit Item</DialogTitle>
                 <DialogDescription>
-                  Update administrator information
+                  Update item information
                 </DialogDescription>
               </DialogHeader>
-              <EditUserForm
+              <EditItemForm
                 setOpen={setEditDialogOpen}
-                user={{
-                  email: selectedAdmin.email,
-                  firstName: selectedAdmin.firstName,
-                  lastName: selectedAdmin.lastName,
+                item={{
+                  name: selectedItem.name,
+                  type: selectedItem.type,
+                  serialNumber: selectedItem.serialNumber,
                 }}
-                userId={selectedAdmin.id}
+                itemId={selectedItem.id}
               />
             </DialogContent>
           </Dialog>
@@ -172,15 +189,15 @@ export function AdminsTable() {
           <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Delete Administrator</DialogTitle>
+                <DialogTitle>Delete Item</DialogTitle>
                 <DialogDescription>
-                  Are you sure you want to delete this administrator?
+                  Are you sure you want to delete this item?
                 </DialogDescription>
               </DialogHeader>
-              <DeleteAdminForm
+              <DeleteItemForm
                 setOpen={setDeleteDialogOpen}
-                adminUsername={selectedAdmin.email}
-                adminId={selectedAdmin.id}
+                itemName={selectedItem.name}
+                itemId={selectedItem.id}
               />
             </DialogContent>
           </Dialog>
@@ -190,12 +207,12 @@ export function AdminsTable() {
       <Dialog open={createDialogOpen} onOpenChange={setCreateDialogOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Create Administrator</DialogTitle>
+            <DialogTitle>Create Item</DialogTitle>
             <DialogDescription>
-              Fill in the details to create a new administrator account
+              Upload an image to analyze and create a new item
             </DialogDescription>
           </DialogHeader>
-          <CreateAdminForm setOpen={setCreateDialogOpen} />
+          <CreateItemForm setOpen={setCreateDialogOpen} />
         </DialogContent>
       </Dialog>
     </>

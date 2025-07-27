@@ -39,8 +39,7 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({
             error: errorMsg
         }, {
-            status: error.status,
-            statusText: error.response.statusText
+            status: error.response.status
         });
     }
 }

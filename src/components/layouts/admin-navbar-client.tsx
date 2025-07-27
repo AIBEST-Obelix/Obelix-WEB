@@ -44,13 +44,19 @@ export default function AdminNavbarClient({
                     href="/admin"
                     className={`transition-colors hover:text-foreground ${isActive("/admin") ? "text-foreground font-semibold" : "text-muted-foreground"}`}
                 >
-                    Статистика
+                    Statistics
                 </Link>
                 <Link
-                    href="/admin/admins"
-                    className={`transition-colors hover:text-foreground ${isActive("/admin/user") ? "text-foreground font-semibold" : "text-muted-foreground"}`}
+                    href="/admin/users"
+                    className={`transition-colors hover:text-foreground ${isActive("/admin/users") ? "text-foreground font-semibold" : "text-muted-foreground"}`}
                 >
-                    Админи
+                    Users
+                </Link>
+                <Link
+                    href="/admin/items"
+                    className={`transition-colors hover:text-foreground ${isActive("/admin/items") ? "text-foreground font-semibold" : "text-muted-foreground"}`}
+                >
+                    Items
                 </Link>
             </nav>
             <Sheet>
@@ -77,13 +83,19 @@ export default function AdminNavbarClient({
                         <Link
                             href="/admin"
                             className={`hover:text-foreground ${isActive("/admin") ? "text-foreground font-semibold" : "text-muted-foreground"}`}>
-                            Статистика
+                            Statistics
                         </Link>
                         <Link
-                            href="/admin/user"
-                            className={`hover:text-foreground ${isActive("/admin/user") ? "text-foreground font-semibold" : "text-muted-foreground"}`}
+                            href="/admin/users"
+                            className={`hover:text-foreground ${isActive("/admin/users") ? "text-foreground font-semibold" : "text-muted-foreground"}`}
                         >
-                            Потребители
+                            Users
+                        </Link>
+                        <Link
+                            href="/admin/items"
+                            className={`hover:text-foreground ${isActive("/admin/items") ? "text-foreground font-semibold" : "text-muted-foreground"}`}
+                        >
+                            Items
                         </Link>
                     </nav>
                 </SheetContent>
@@ -105,4 +117,4 @@ export default function AdminNavbarClient({
             </div>
         </header>
     );
-} 
+}

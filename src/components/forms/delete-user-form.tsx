@@ -32,7 +32,7 @@ export function DeleteUserForm(
 
             await userService.DeleteUserAsync(userId);
 
-            toast.success(`Успешно изтрихте потребител ${username} от системата.`);
+            toast.success(`Successfully deleted user ${username} from the system.`);
 
             const events: Array<CustomEvent> = [
                 new CustomEvent(USER_TABLE_REFRESH_EVENT)
@@ -57,7 +57,7 @@ export function DeleteUserForm(
                 {isLoading &&
                     <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
                 }
-                {isLoading ? "Моля изчакайте" : "Изтриване"}
+                {isLoading ? "Please wait" : "Delete"}
             </Button>
         </form>
     )

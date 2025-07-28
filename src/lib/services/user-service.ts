@@ -18,14 +18,12 @@ export class UserService {
         return res.data;
     }
 
-    async UpdateUserAsync(userId: string, user: UserUm) : Promise<UserVm> {
-        const res = await clientHttpClient.put<UserVm>(`/api/user/${userId}`, user);
-        return res.data;
+    async UpdateUserAsync(userId: string, updateData: {email: string, password?: string, firstName: string, lastName: string}) : Promise<void> {
+        await clientHttpClient.put(`/api/user/${userId}`, updateData);
     }
 
     async DeleteUserAsync(userId: string) : Promise<void> {
-        const res = await clientHttpClient.delete(`/api/user/${userId}`);
-        return res.data;
+        await clientHttpClient.delete(`/api/user/${userId}`);
     }
 }
 

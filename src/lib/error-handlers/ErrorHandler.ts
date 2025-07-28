@@ -12,7 +12,7 @@ export default class ErrorHandler {
         if (error instanceof AxiosError) {
             const errorMessage = error.response?.data.error;
             if ([INVALID_JSON, INVALID_USERNAME, INVALID_PASSWORD].includes(errorMessage)) {
-                return "Неправилни данни за вход.";
+                return "Invalid login credentials.";
             } else {
                 return errorMessage || error.message;
             }
@@ -25,9 +25,9 @@ export default class ErrorHandler {
         if (error instanceof AxiosError) {
             const errorMessage = error.response?.data.error;
             if ([INVALID_JSON, INVALID_USERNAME, INVALID_PASSWORD].includes(errorMessage)) {
-                return "Неправилни данни за регистрация.";
+                    return "Invalid registration data.";
             } else if ([ADMIN_EXISTS, USER_ALREADY_EXISTS, PROVIDER_ADMIN_EXISTS].includes(errorMessage)) {
-                return "Потребител със същото потребителско име вече съществува. (Проверете дали има изтрит потребител със същото потребителско име)";
+                return "User with the same username already exists. (Check if there is a deleted user with the same username)";
             } else {
                 return errorMessage || error.message;
             }
@@ -40,7 +40,7 @@ export default class ErrorHandler {
         if (error instanceof AxiosError) {
             const errorMessage = error.response?.data.error;
             if ([INVALID_JSON].includes(errorMessage)) {
-                return "Неправилни данни за потребител.";
+                return "Invalid user data.";
             } else {
                 return errorMessage || error.message;
             }
@@ -53,7 +53,7 @@ export default class ErrorHandler {
         if (error instanceof AxiosError) {
             const errorMessage = error.response?.data.error;
             if ([INVALID_JSON].includes(errorMessage)) {
-                return "Неправилни данни за дистрибутор.";
+                return "Invalid provider data.";
             } else {
                 return errorMessage || error.message;
             }
@@ -66,7 +66,7 @@ export default class ErrorHandler {
         if (error instanceof AxiosError) {
             const errorMessage = error.response?.data.error;
             if ([INVALID_JSON].includes(errorMessage)) {
-                return "Неправилни данни за марка.";
+                return "Invalid brand data.";
             } else {
                 return errorMessage || error.message;
             }
@@ -79,7 +79,7 @@ export default class ErrorHandler {
         if (error instanceof AxiosError) {
             const errorMessage = error.response?.data.error;
             if ([INVALID_JSON].includes(errorMessage)) {
-                return "Неправилни данни за улица.";
+                return "Invalid street data.";
             } else {
                 return errorMessage || error.message;
             }
@@ -92,7 +92,7 @@ export default class ErrorHandler {
         if (error instanceof AxiosError) {
             const errorMessage = error.response?.data.error;
             if ([INVALID_JSON].includes(errorMessage)) {
-                return "Неправилни данни за адрес.";
+                return "Invalid address data.";
             } else {
                 return errorMessage || error.message;
             }
@@ -105,7 +105,7 @@ export default class ErrorHandler {
         if (error instanceof AxiosError) {
             const errorMessage = error.response?.data.error;
             if ([INVALID_JSON].includes(errorMessage)) {
-                return "Неправилни данни за контейнер.";
+                return "Invalid container data.";
             } else {
                 return errorMessage || error.message;
             }

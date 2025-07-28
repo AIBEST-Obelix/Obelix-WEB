@@ -12,6 +12,7 @@ import {AxiosError} from "axios";
 import {ReloadIcon} from "@radix-ui/react-icons";
 import {ADMIN_TABLE_REFRESH_EVENT} from "@/lib/shared/constants";
 import authService from "@/lib/services/auth-service";
+import {UserIm} from "@/lib/api/models/user/user-im";
 
 export function CreateAdminForm(
     { 
@@ -28,18 +29,27 @@ export function CreateAdminForm(
         setIsLoading(true);
 
         const form = event.currentTarget;
-        const username = form['username'].value;
-        const password = form['password']?.value;
+        const email = form['email'].value;
+        const password = form['password'].value;
+        const firstName = form['firstName'].value;
+        const lastName = form['lastName'].value;
 
         try {
-            Validator.ValidateUserIm({username, password});
+            // Create a proper UserIm object
+            const adminData = new UserIm();
+            adminData.email = email.trim();
+            adminData.password = password.trim();
+            adminData.firstName = firstName.trim();
+            adminData.lastName = lastName.trim();
 
-            await authService.CreateAdminAsync({username, password});
+            // Validate using the proper UserIm validator
+            Validator.ValidateUserIm(adminData);
 
-            toast.success(`Успешно създадохте потребител ${username} в системата.`);
+            await authService.CreateAdminAsync(adminData);
 
-            const event = new CustomEvent(ADMIN_TABLE_REFRESH_EVENT)
+            toast.success(`Successfully created admin ${email} in the system.`);
 
+            const event = new CustomEvent(ADMIN_TABLE_REFRESH_EVENT);
             window.dispatchEvent(event);
 
             setOpen && setOpen(false);
@@ -54,17 +64,24 @@ export function CreateAdminForm(
     return (
         <form onSubmit={handleSubmit} className={cn("grid items-start gap-4 pr-4 pl-4 md:pr-0 md:pl-0", className)}>
             <div className="grid gap-2">
-                <Label htmlFor="username">Потребителско име</Label>
-                <Input id="username" placeholder="username" required/>
-                <Label htmlFor="password">Парола</Label>
-                <Input id="password" type="password" required/>
+                <Label htmlFor="firstName">First Name</Label>
+                <Input id="firstName" placeholder="John" required />
 
+                <Label htmlFor="lastName">Last Name</Label>
+                <Input id="lastName" placeholder="Doe" required />
+
+                <Label htmlFor="email">Email</Label>
+                <Input id="email" type="email" placeholder="john.doe@example.com" required />
+
+                <Label htmlFor="password">Password</Label>
+                <Input id="password" type="password" required />
             </div>
+
             <Button type={"submit"} className="w-full" disabled={isLoading}>
                 {isLoading &&
                     <ReloadIcon className="mr-2 h-4 w-4 animate-spin"/>
                 }
-                {isLoading ? "Моля изчакайте" : "Създаване"}
+                {isLoading ? "Please wait" : "Create Admin"}
             </Button>
         </form>
     );

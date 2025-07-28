@@ -58,6 +58,12 @@ export default function AdminNavbarClient({
                 >
                     Items
                 </Link>
+                <Link
+                    href="/admin/requests"
+                    className={`transition-colors hover:text-foreground ${isActive("/admin/requests") ? "text-foreground font-semibold" : "text-muted-foreground"}`}
+                >
+                    Requests
+                </Link>
             </nav>
             <Sheet>
                 <SheetTrigger asChild>
@@ -96,6 +102,12 @@ export default function AdminNavbarClient({
                             className={`hover:text-foreground ${isActive("/admin/items") ? "text-foreground font-semibold" : "text-muted-foreground"}`}
                         >
                             Items
+                        </Link>
+                        <Link
+                            href="/admin/requests"
+                            className={`hover:text-foreground ${isActive("/admin/requests") ? "text-foreground font-semibold" : "text-muted-foreground"}`}
+                        >
+                            Requests
                         </Link>
                     </nav>
                 </SheetContent>

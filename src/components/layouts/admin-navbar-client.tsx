@@ -58,12 +58,6 @@ export default function AdminNavbarClient({
                 >
                     Items
                 </Link>
-                <Link
-                    href="/admin/requests"
-                    className={`transition-colors hover:text-foreground ${isActive("/admin/requests") ? "text-foreground font-semibold" : "text-muted-foreground"}`}
-                >
-                    Requests
-                </Link>
             </nav>
             <Sheet>
                 <SheetTrigger asChild>
@@ -103,12 +97,6 @@ export default function AdminNavbarClient({
                         >
                             Items
                         </Link>
-                        <Link
-                            href="/admin/requests"
-                            className={`hover:text-foreground ${isActive("/admin/requests") ? "text-foreground font-semibold" : "text-muted-foreground"}`}
-                        >
-                            Requests
-                        </Link>
                     </nav>
                 </SheetContent>
             </Sheet>
@@ -121,7 +109,7 @@ export default function AdminNavbarClient({
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>{userInfo.firstName || userInfo.email}</DropdownMenuLabel>
+                        <DropdownMenuLabel>{userInfo.userName}</DropdownMenuLabel>
                         <DropdownMenuSeparator/>
                         <LogoutButton/>
                     </DropdownMenuContent>

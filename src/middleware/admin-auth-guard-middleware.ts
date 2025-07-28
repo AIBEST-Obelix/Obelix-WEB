@@ -10,7 +10,7 @@ export const adminAuthGuardMiddleware: MiddlewareFactory = (next) => {
     return async(request: NextRequest, _next: NextFetchEvent) => {
         const pathname = request.nextUrl.pathname;
 
-        if (pathname.startsWith("/admin")) {
+        if (["/admin", "/admin/admin", "/admin/user", "/admin/product", "/admin/notification"]?.some((path) => pathname === path)) {
             const accessToken = request.cookies.get("accessToken");
             if (!accessToken) {
                 const url = new URL(`/auth/login`, request.nextUrl.origin);

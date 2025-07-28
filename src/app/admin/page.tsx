@@ -7,6 +7,7 @@ import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, Tooltip } from "recha
 import { SimpleLineChart } from "@/components/ui/line-chart";
 import userService from "@/lib/services/user-service";
 import itemService from "@/lib/services/item-service";
+import clientHttpClient from "@/lib/services/client-http";
 import { Users, Shield, Package } from "lucide-react";
 import { UserVm } from "@/lib/api/models/user/user-vm";
 import { ItemVm } from "@/lib/api/models/item/item-vm";
@@ -15,19 +16,25 @@ export default function Dashboard() {
     const [users, setUsers] = useState<UserVm[]>([]);
     const [admins, setAdmins] = useState<UserVm[]>([]);
     const [items, setItems] = useState<ItemVm[]>([]);
+    const [userAnalytics, setUserAnalytics] = useState<Record<string, number>>({});
+    const [itemAnalytics, setItemAnalytics] = useState<Record<string, number>>({});
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [usersData, adminsData, itemsData] = await Promise.all([
+                const [usersData, adminsData, itemsData, userAnalyticsRes, itemAnalyticsRes] = await Promise.all([
                     userService.GetAllUsersAsync(),
                     userService.GetAllAdminsAsync(),
-                    itemService.GetAllItemsAsync()
+                    itemService.GetAllItemsAsync(),
+                    clientHttpClient.get('/api/user/analytics/monthly-count'),
+                    clientHttpClient.get('/api/items/analytics/monthly-count')
                 ]);
                 setUsers(usersData);
                 setAdmins(adminsData);
                 setItems(itemsData);
+                setUserAnalytics(userAnalyticsRes.data);
+                setItemAnalytics(itemAnalyticsRes.data);
             } catch (error) {
                 console.error("Error fetching data:", error);
             } finally {
@@ -53,22 +60,13 @@ export default function Dashboard() {
         { name: "Items", value: items.length, fill: "hsl(var(--chart-2))" }
     ];
 
-    // Generate line chart data based on current totals
-    const lineChartData = [
-        { month: "Jan", users: Math.floor(users.length * 0.3), items: Math.floor(items.length * 0.2) },
-        { month: "Feb", users: Math.floor(users.length * 0.4), items: Math.floor(items.length * 0.3) },
-        { month: "Mar", users: Math.floor(users.length * 0.5), items: Math.floor(items.length * 0.4) },
-        { month: "Apr", users: Math.floor(users.length * 0.6), items: Math.floor(items.length * 0.5) },
-        { month: "May", users: Math.floor(users.length * 0.7), items: Math.floor(items.length * 0.6) },
-        { month: "Jun", users: Math.floor(users.length * 0.8), items: Math.floor(items.length * 0.7) },
-        { month: "Jul", users: Math.floor(users.length * 0.85), items: Math.floor(items.length * 0.8) },
-        { month: "Aug", users: Math.floor(users.length * 0.9), items: Math.floor(items.length * 0.85) },
-        { month: "Sep", users: Math.floor(users.length * 0.95), items: Math.floor(items.length * 0.9) },
-        { month: "Oct", users: Math.floor(users.length * 0.97), items: Math.floor(items.length * 0.95) },
-        { month: "Nov", users: Math.floor(users.length * 0.99), items: Math.floor(items.length * 0.98) },
-        { month: "Dec", users: users.length, items: items.length }
-    ];
-
+    // Create line chart data from real analytics data
+    const monthOrder = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const lineChartData = monthOrder.map(month => ({
+        month,
+        users: userAnalytics[month] || 0,
+        items: itemAnalytics[month] || 0
+    }));
 
 
     return (

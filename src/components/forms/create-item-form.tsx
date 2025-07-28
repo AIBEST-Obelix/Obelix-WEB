@@ -14,12 +14,12 @@ import itemService from "@/lib/services/item-service";
 import { Upload } from "lucide-react";
 
 export function CreateItemForm(
-    {
-        setOpen,
-        className
-    } : React.ComponentProps<"form"> & {
+    { 
+        setOpen, 
+        className 
+    } : React.ComponentProps<"form"> & { 
         setOpen?: Dispatch<SetStateAction<boolean>>
-    })
+    }) 
 {
     const [isLoading, setIsLoading] = useState(false);
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -41,7 +41,7 @@ export function CreateItemForm(
             }
 
             setSelectedFile(file);
-
+            
             // Create preview URL
             const url = URL.createObjectURL(file);
             setPreviewUrl(url);
@@ -50,7 +50,7 @@ export function CreateItemForm(
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-
+        
         if (!selectedFile) {
             toast.error("Please select an image file");
             return;
@@ -60,7 +60,7 @@ export function CreateItemForm(
 
         try {
             await itemService.CreateItemAsync(selectedFile);
-
+            
             toast.success("Image uploaded successfully! Item analysis in progress...");
 
             // Dispatch refresh event

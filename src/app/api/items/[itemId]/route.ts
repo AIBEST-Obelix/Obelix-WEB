@@ -6,7 +6,7 @@ import { Validator } from "@/lib/validator/validator";
 
 export async function GET(req: NextRequest, props: { params: Promise<{ itemId: string }> }): Promise<NextResponse<ItemVm | unknown>> {
     const params = await props.params;
-
+    
     try {
         const res = await itemApi.GetItemByIdAsync(params.itemId);
 
@@ -78,7 +78,7 @@ export async function PUT(req: NextRequest, props: { params: Promise<{ itemId: s
 
 export async function DELETE(req: NextRequest, props: { params: Promise<{ itemId: string }> }): Promise<NextResponse<unknown>> {
     const params = await props.params;
-
+    
     try {
         const res = await itemApi.DeleteItemAsync(params.itemId) as any;
 

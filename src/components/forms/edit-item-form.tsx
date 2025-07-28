@@ -62,7 +62,7 @@ export function EditItemForm(
             if (setOpen) {
                 setOpen(false);
             }
-
+            
         } catch (error) {
             const msg = ErrorHandler.HandleUserError(error as AxiosError);
             toast.error(msg);
@@ -76,14 +76,14 @@ export function EditItemForm(
             <div className="grid gap-2">
                 <Label htmlFor="name">Name</Label>
                 <Input id="name" defaultValue={item.name} required />
-
+                
                 <Label htmlFor="type">Type</Label>
                 <Input id="type" defaultValue={item.type} required />
-
+                
                 <Label htmlFor="serialNumber">Serial Number</Label>
                 <Input id="serialNumber" defaultValue={item.serialNumber} required />
             </div>
-
+            
             <Button type="submit" className="w-full" disabled={isLoading}>
                 {isLoading && (
                     <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />

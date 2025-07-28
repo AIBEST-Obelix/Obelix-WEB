@@ -3,7 +3,7 @@ import itemApi from "@/lib/api/apis/identity/item-api";
 
 export async function GET(req: NextRequest, props: { params: Promise<{ itemId: string }> }): Promise<NextResponse<Array<string> | unknown>> {
     const params = await props.params;
-
+    
     try {
         const res = await itemApi.GetItemImageIdsAsync(params.itemId);
 

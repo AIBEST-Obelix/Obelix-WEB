@@ -35,7 +35,7 @@ export function DeleteItemForm(
 
             const refreshEvent = new CustomEvent(ITEM_TABLE_REFRESH_EVENT);
             window.dispatchEvent(refreshEvent);
-
+            
             if (setOpen) {
                 setOpen(false);
             }
@@ -52,7 +52,7 @@ export function DeleteItemForm(
             <p className="text-sm text-gray-600">
                 This action cannot be undone. The item "{itemName}" will be permanently deleted.
             </p>
-
+            
             <Button type="submit" variant="destructive" className="w-full" disabled={isLoading}>
                 {isLoading && (
                     <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />

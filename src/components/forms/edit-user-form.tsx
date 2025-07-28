@@ -40,12 +40,12 @@ export function EditUserForm(
         const password = checked ? form['password']?.value : undefined;
 
         try {
-            const updateData: {email: string, password?: string, firstName: string, lastName: string} = {
-                email,
-                firstName,
-                lastName
+            const updateData: {email: string, password?: string, firstName: string, lastName: string} = { 
+                email, 
+                firstName, 
+                lastName 
             };
-
+            
             if (password) {
                 updateData.password = password;
             }
@@ -73,13 +73,13 @@ export function EditUserForm(
             <div className="grid gap-2">
                 <Label htmlFor="firstName">First Name</Label>
                 <Input id="firstName" defaultValue={user.firstName} />
-
+                
                 <Label htmlFor="lastName">Last Name</Label>
                 <Input id="lastName" defaultValue={user.lastName} />
-
+                
                 <Label htmlFor="email">Email</Label>
                 <Input id="email" defaultValue={user.email} type="email" />
-
+                
                 <div className="flex items-center space-x-2">
                     <Checkbox checked={checked} id="passwordCheck" onCheckedChange={() => setChecked(!checked)} />
                     <Label htmlFor="passwordCheck" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
@@ -93,7 +93,7 @@ export function EditUserForm(
                     </>
                 )}
             </div>
-
+            
             <Button type={"submit"} className="w-full" disabled={isLoading}>
                 {isLoading &&
                     <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />

@@ -32,7 +32,7 @@ export async function GET(): Promise<NextResponse<Array<ItemVm> | unknown>> {
 export async function POST(req: NextRequest): Promise<NextResponse<unknown>> {
     try {
         const formData = await req.formData();
-
+        
         const res = await itemApi.CreateItemAsync(formData) as any;
 
         return NextResponse.json(res.data, {

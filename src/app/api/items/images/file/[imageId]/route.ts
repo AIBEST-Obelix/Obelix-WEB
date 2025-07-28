@@ -2,14 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest, props: { params: Promise<{ imageId: string }> }): Promise<NextResponse> {
     const params = await props.params;
-
+    
     console.log("Image API route called with imageId:", params.imageId);
-
+    
     try {
         // Call your backend API directly to stream the image
         const backendUrl = `http://localhost:5151/api/items/ItemsFile/${params.imageId}`;
         console.log("Calling backend URL:", backendUrl);
-
+        
         const response = await fetch(backendUrl, {
             method: 'GET',
             // Add any necessary headers for authentication if needed
@@ -37,7 +37,7 @@ export async function GET(req: NextRequest, props: { params: Promise<{ imageId: 
         });
     } catch (error: any) {
         console.error("Error streaming image:", error);
-
+        
         // Return a 404 or error response
         return new NextResponse("Image not found", {
             status: 404,

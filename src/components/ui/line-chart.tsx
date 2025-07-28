@@ -17,6 +17,7 @@ interface LineChartData {
   month: string
   users: number
   items: number
+  requests?: number
 }
 
 interface SimpleLineChartProps {
@@ -69,8 +70,17 @@ export function SimpleLineChart({ data, className = "", height = 300 }: SimpleLi
               activeDot={{ r: 6, stroke: "#10b981", strokeWidth: 2 }}
               name="Items"
             />
+            <Line
+              type="monotone"
+              dataKey="requests"
+              stroke="#f59e0b"
+              strokeWidth={2}
+              dot={{ fill: "#f59e0b", strokeWidth: 2, r: 4 }}
+              activeDot={{ r: 6, stroke: "#f59e0b", strokeWidth: 2 }}
+              name="Requests"
+            />
           </LineChart>
         </ResponsiveContainer>
       </div>
   )
-} 
+}
